@@ -18,8 +18,6 @@ unsigned long get_time() {
 int main(int argc, char **argv) {
   png_data *pPng = png_create(IMAGE_WIDTH, IMAGE_HEIGHT); // create th graphic
 
-  double x, y, x2, y2, cx, cy;
-  cy = MIN_Y;
 
   double fDeltaX = (MAX_X - MIN_X) / (double)IMAGE_WIDTH;
   double fDeltaY = (MAX_Y - MIN_Y) / (double)IMAGE_HEIGHT;
@@ -27,21 +25,19 @@ int main(int argc, char **argv) {
   long nTotalIterationsCount = 0;
   unsigned long nTimeStart = get_time();
 
-  long i, j, n;
-
   
   // do the calculation
 
-  #pragma omp parallel for schedule(static) default(none) shared(nTotalIterationsCount) 
-  for (j = 0; j < IMAGE_HEIGHT; j++) {
-    cy = MIN_Y+j*fDeltaY;
-    for (i = 0; i < IMAGE_WIDTH; i++) {
-      cx = MIN_X+i*fDeltaX; 
-      x = cx;
-      y = cy;
-      x2 = x * x;
-      y2 = y * y;
-      n = 0; 
+  #pragma omp parallel for schedule(static) default(none) shared(pPng) firstprivate(fDeltaX, fDeltaY) reduction(+:nTotalIterationsCount)
+  for (long j = 0; j < IMAGE_HEIGHT; j++) {
+    double cy = MIN_Y+j*fDeltaY;
+    for (long i = 0; i < IMAGE_WIDTH; i++) {
+      double cx = MIN_X+i*fDeltaX; 
+      double x = cx;
+      double y = cy;
+      double x2 = x * x;
+      double y2 = y * y;
+      long n = 0; 
       while (x2+y2 < 4 && n < MAX_ITERS)
       {
              double x_new = x2-y2+cx; 
@@ -53,7 +49,6 @@ int main(int argc, char **argv) {
              
       }
 
-      #pragma omp parallel reduction(+:nTotalIterationsCount)
       nTotalIterationsCount += n; 
       // plot the number of iterations at point (i, j)
       int c = ((long)n * 255) / MAX_ITERS;
