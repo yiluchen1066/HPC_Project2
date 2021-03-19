@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   
   // do the calculation
 
-  //#pragma omp parallel for schedule(static)
+  #pragma omp parallel for schedule(static)
   for (j = 0; j < IMAGE_HEIGHT; j++) {
     cy = MIN_Y+j*fDeltaY;
     for (i = 0; i < IMAGE_WIDTH; i++) {
