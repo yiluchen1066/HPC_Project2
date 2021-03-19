@@ -1,4 +1,4 @@
-#include "pngwriter.h"
+#include "pngwriter_omp.h"
 #include <stdlib.h>
 
 png_data *png_create(int nWidth, int nHeight) {

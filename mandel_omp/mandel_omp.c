@@ -6,7 +6,7 @@
 #include <unistd.h>
 
 #include "consts.h"
-#include "pngwriter.h"
+#include "pngwriter_omp.h"
 
 unsigned long get_time() {
   struct timeval tp;
