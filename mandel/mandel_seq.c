@@ -43,8 +43,9 @@ int main(int argc, char **argv) {
       n = 0; 
       while (x2+y2 < 4 && n < MAX_ITERS)
       {
-             x = x2-y2+cx; 
+             double x_new = x2-y2+cx; 
              y = 2*x*y+cy; 
+             x = x_new; 
              n = n+1; 
              x2=x*x; 
              y2=y*y; 
@@ -52,7 +53,6 @@ int main(int argc, char **argv) {
       }
 
       nTotalIterationsCount += n; 
-      
       // plot the number of iterations at point (i, j)
       int c = ((long)n * 255) / MAX_ITERS;
       png_plot(pPng, i, j, c, c, c);
