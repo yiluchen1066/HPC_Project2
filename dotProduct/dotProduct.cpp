@@ -4,12 +4,13 @@
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <omp.h>
 
 #define NUM_ITERATIONS 100
 
 // Example benchmarks
 // 0.008s ~0.8MB
-#define N 100000
+#define N 100000//change N = 100000, N = 1000000, N = 10000000, N = 100000000, N = 1000000000
 // 0.1s ~8MB
 // #define N 1000000
 // 1.1s ~80MB
@@ -57,12 +58,28 @@ int main() {
   //   i.  Using reduction pragma
   //   ii. Using  critical pragma
 
+  #pragma omp parallel for default(shared) private(i) schedule(static) reduction (+:alpha_parallel)
   for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++) {
     alpha_parallel = 0.0;
     for (int i = 0; i < N; i++) {
       alpha_parallel += a[i] * b[i];
     }
   }
+  time_red = wall_time() - time_red; 
+
+  #pragma omp parallel for default(shared) private(i) schedule(static) 
+  for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++)
+  {
+    alpha_parallel = 0.0; 
+    for (int i = 0; i < N; i++)
+    {
+      #pragma omp critical; 
+      alpha_parallel += a[i]*b[i]; 
+    }
+    
+  }
+  time_critical = wall_time() - time_critical; 
+  
 
   if ((fabs(alpha_parallel - alpha) / fabs(alpha_parallel)) > EPSILON) {
     cout << "parallel reduction: " << alpha_parallel << ", serial: " << alpha

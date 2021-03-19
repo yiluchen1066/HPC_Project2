@@ -15,7 +15,7 @@ unsigned long get_time() {
 }
 
 int main(int argc, char **argv) {
-  png_data *pPng = png_create(IMAGE_WIDTH, IMAGE_HEIGHT);
+  png_data *pPng = png_create(IMAGE_WIDTH, IMAGE_HEIGHT); // create th graphic
 
   double x, y, x2, y2, cx, cy;
   cy = MIN_Y;
@@ -28,29 +28,36 @@ int main(int argc, char **argv) {
 
   long i, j, n;
 
-  n = 0;
+  
   // do the calculation
+
+  #pragma omp parallel for schedule(static)
   for (j = 0; j < IMAGE_HEIGHT; j++) {
-    cx = MIN_X;
+    cy = MIN_Y+j*fDeltaY;
     for (i = 0; i < IMAGE_WIDTH; i++) {
+      cx = MIN_X+i*fDeltaX; 
       x = cx;
       y = cy;
       x2 = x * x;
       y2 = y * y;
-      // compute the orbit z, f(z), f^2(z), f^3(z), ...
-      // count the iterations until the orbit leaves the circle |z|=2.
-      // stop if the number of iterations exceeds the bound MAX_ITERS.
-      // TODO
-      // >>>>>>>> CODE IS MISSING
+      n = 0; 
+      while (x2+y2 < 4 && n < MAX_ITERS)
+      {
+             x = x2-y2+cx; 
+             y = 2*x*y+cy; 
+             n = n+1; 
+             x2=x*x; 
+             y2=y*y; 
+             
+      }
 
-      // <<<<<<<< CODE IS MISSING
-      // n indicates if the point belongs to the mandelbrot set
+      nTotalIterationsCount += n; 
+      
       // plot the number of iterations at point (i, j)
       int c = ((long)n * 255) / MAX_ITERS;
       png_plot(pPng, i, j, c, c, c);
-      cx += fDeltaX;
+      
     }
-    cy += fDeltaY;
   }
   unsigned long nTimeEnd = get_time();
 
