@@ -4,6 +4,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+#include<omp.h>
 
 #include "consts.h"
 #include "pngwriter_omp.h"
@@ -31,7 +32,7 @@ int main(int argc, char **argv) {
   
   // do the calculation
 
-  #pragma omp parallel for schedule(static)
+  #pragma omp parallel for schedule(static) default(none) shared(nTotalIterationsCount) 
   for (j = 0; j < IMAGE_HEIGHT; j++) {
     cy = MIN_Y+j*fDeltaY;
     for (i = 0; i < IMAGE_WIDTH; i++) {
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
              
       }
 
+      #pragma omp parallel reduction(+:nTotalIterationsCount)
       nTotalIterationsCount += n; 
       // plot the number of iterations at point (i, j)
       int c = ((long)n * 255) / MAX_ITERS;
