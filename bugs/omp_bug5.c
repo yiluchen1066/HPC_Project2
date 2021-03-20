@@ -38,8 +38,9 @@ int main(int argc, char *argv[]) {
     {
 #pragma omp section
       {
-        printf("Thread %d initializing a[]\n", tid);
+        //printf("Thread %d initializing a[]\n", tid);
         omp_set_lock(&locka);
+        printf("Thread %d initializing a[]\n", tid);
         for (i = 0; i < N; i++)
           a[i] = i * DELTA;
         omp_set_lock(&lockb);
@@ -52,8 +53,9 @@ int main(int argc, char *argv[]) {
 
 #pragma omp section
       {
-        printf("Thread %d initializing b[]\n", tid);
+        //printf("Thread %d initializing b[]\n", tid);
         omp_set_lock(&lockb);
+        printf("Thread %d initializing b[]\n", tid);
         for (i = 0; i < N; i++)
           b[i] = i * PI;
         omp_set_lock(&locka);

@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
     printf("Thread %d starting...\n", tid);
 #pragma omp barrier
 
+
 #pragma omp sections nowait
     {
 #pragma omp section
@@ -54,8 +55,11 @@ int main(int argc, char *argv[]) {
 #pragma omp barrier
     printf("Thread %d exiting...\n", tid);
 
+
   } /* end of parallel section */
 }
+
+
 
 void print_results(float array[N], int tid, int section) {
   int i, j;
@@ -65,7 +69,7 @@ void print_results(float array[N], int tid, int section) {
 #pragma omp critical
   {
     printf("\nThread %d did section %d. The results are:\n", tid, section);
-    for (i = 0; i < N; i++) {
+    for (i = 0; i < N; i++) {    
       printf("%e  ", array[i]);
       j++;
       if (j == 6) {
@@ -74,8 +78,12 @@ void print_results(float array[N], int tid, int section) {
       }
     }
     printf("\n");
+    //printf("Thread %d done and synchronized.\n", tid);
+
+
   } /*** end of critical ***/
 
-#pragma omp barrier
+//#pragma omp barrier
   printf("Thread %d done and synchronized.\n", tid);
+
 }

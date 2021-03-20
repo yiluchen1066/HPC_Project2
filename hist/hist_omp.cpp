@@ -1,6 +1,7 @@
 #include "walltime.h"
 #include <iostream>
 #include <random>
+#include <omp.h>
 
 #define VEC_SIZE 1000000000
 #define BINS 16
@@ -39,7 +40,9 @@ int main() {
   time_start = wall_time();
 
   // TODO Parallelize the histogram computation
-  for (long i = 0; i < VEC_SIZE; ++i) {
+  long i; 
+  #pragma omp parallel for default(shared) private(i) reduction (+:dist) 
+  for (i = 0; i < VEC_SIZE; ++i) {
     dist[vec[i]]++;
   }
   time_end = wall_time();

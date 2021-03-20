@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
   float total;
 
 /*** Spawn parallel region ***/
-#pragma omp parallel
+#pragma omp parallel firstprivate(tid)
   {
     /* Obtain thread number */
     tid = omp_get_thread_num();
@@ -22,11 +22,13 @@ int main(int argc, char *argv[]) {
     }
     printf("Thread %d is starting...\n", tid);
 
+    total = 0.0; 
+
 #pragma omp barrier
 
     /* do some work */
-    total = 0.0;
-#pragma omp for schedule(dynamic, 10)
+    //total = 0.0;
+#pragma omp for schedule(dynamic, 10) reduction(+:total)
     for (i = 0; i < 1000000; i++)
       total = total + i * 1.0;
 
