@@ -61,13 +61,14 @@ int main() {
     {
       dist_private[vec[i]]++; 
     }
-    #pragma omp critical
-    {
-      for (int i = 0; i < BINS; i++)
+    
+    
+    for (int i = 0; i < BINS; i++)
       {
+        #pragma omp atomic
         dist[i] += dist_private[i]; 
       }  
-    }
+    
   }
   time_end = wall_time(); 
 
