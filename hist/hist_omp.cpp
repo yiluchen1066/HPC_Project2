@@ -54,6 +54,7 @@ int main() {
   }
   time_end = wall_time();
   */ 
+ 
   long i; 
   int j; 
   #pragma omp parallel fisrtprivate(dis_private,vec) shared(dist)
