@@ -36,16 +36,40 @@ int main() {
   for (int i = 0; i < BINS; ++i) {
     dist[i] = 0;
   }
+  long dist_private[BINS];
+  for (int i = 0; i < BINS; ++i)
+  {
+    dist_private[i] = 0; 
+  }
+  
 
   time_start = wall_time();
 
   // TODO Parallelize the histogram computation
+  /*
   long i; 
   #pragma omp parallel for default(shared) private(i) reduction (+:dist) 
   for (i = 0; i < VEC_SIZE; ++i) {
     dist[vec[i]]++;
   }
   time_end = wall_time();
+  */ 
+
+  #pragma omp parallel 
+  {
+    for (long i = 0; i < VEC_SIZE; ++i)
+    {
+      dist_private[vec[i]]++; 
+    }
+    #pragma omp critical
+    {
+      for (int i = 0; i < BINS; i++)
+      {
+        dist[i] += dist_private[i]; 
+      }  
+    }
+  }
+  time_end = wall_time(); 
 
   // Write results
   for (int i = 0; i < BINS; ++i) {
