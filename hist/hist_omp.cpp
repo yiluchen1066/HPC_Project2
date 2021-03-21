@@ -57,7 +57,7 @@ int main() {
 
   long i; 
   int j; 
-  #pragma omp parallel default(none) firstprivate(dis_private,vec) shared(dist)
+  #pragma omp parallel default(none) firstprivate(dist_private,vec) shared(dist)
   {
     #pragma omp for schedule(static) 
     for (i = 0; i < VEC_SIZE; ++i)
