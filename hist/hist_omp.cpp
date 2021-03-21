@@ -56,7 +56,7 @@ int main() {
   */ 
   long i; 
   int j; 
-  #pragma omp parallel private(dis_private,vec) shared(VEC_SIZE, BINS, dist)
+  #pragma omp parallel fisrtprivate(dis_private,vec) shared(dist)
   {
     #pragma omp parallel for schedule(static) 
     for (i = 0; i < VEC_SIZE; ++i)
