@@ -55,18 +55,16 @@ int main() {
   time_end = wall_time();
   */ 
 
-  long i; 
-  int j; 
   #pragma omp parallel default(none) firstprivate(dist_private,vec) shared(dist)
   {
     #pragma omp for schedule(static) 
-    for (i = 0; i < VEC_SIZE; ++i)
+    for (long i = 0; i < VEC_SIZE; ++i)
     {
       dist_private[vec[i]]++;
     }
     
     //merge
-    for (j = 0; j < BINS; j++)
+    for (int j = 0; j < BINS; j++)
       {
         #pragma omp atomic
         dist[j] += dist_private[j]; 
