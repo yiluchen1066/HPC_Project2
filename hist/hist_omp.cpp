@@ -54,15 +54,15 @@ int main() {
   }
   time_end = wall_time();
   */ 
- 
+
   long i; 
   int j; 
-  #pragma omp parallel fisrtprivate(dis_private,vec) shared(dist)
+  #pragma omp parallel default(none) fisrtprivate(dis_private,vec) shared(dist)
   {
     #pragma omp parallel for schedule(static) 
     for (i = 0; i < VEC_SIZE; ++i)
     {
-      dist_private[vec[i]]++; 
+      dist_private[vec[i]]++;
     }
     
     //merge
