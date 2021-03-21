@@ -35,8 +35,6 @@ int main(int argc, char *argv[]) {
   }
   Sn = Sn*up; 
   
-
-
   /*
   for (n = 0; n <= N; ++n) {
     opt[n] = Sn;
