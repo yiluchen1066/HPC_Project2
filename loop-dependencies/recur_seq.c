@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
   double *opt = (double *)malloc((N + 1) * sizeof(double));
 
   if (opt == NULL)
-    die("failed to allocate problem size");
+    die("failed to allocate problem size ");
 
   double time_start = wall_time();
   for (n = 0; n <= N; ++n) {
