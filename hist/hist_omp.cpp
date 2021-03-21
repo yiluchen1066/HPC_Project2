@@ -42,6 +42,17 @@ int main() {
     dist_private[i] = 0; 
   }
   
+  #pragma omp parallel
+    {
+      int tid = omp_get_thread_num(); 
+      int nthreads = omp_get_num_threads(); 
+      if (tid == 0)
+      {
+        printf("Number of threads = %d\n", nthreads); 
+      }
+
+    }
+
 
   time_start = wall_time();
 
@@ -54,17 +65,21 @@ int main() {
   }
   time_end = wall_time();
   */ 
+  
+  
+  long i; 
+  int j; 
 
-  #pragma omp parallel default(none) firstprivate(dist_private,vec) shared(dist)
+  #pragma omp parallel default(none) firstprivate(dist_private) private(i,j) shared(dist,vec)
   {
     #pragma omp for schedule(static) 
-    for (long i = 0; i < VEC_SIZE; ++i)
+    for (i = 0; i < VEC_SIZE; ++i)
     {
       dist_private[vec[i]]++;
     }
     
     //merge
-    for (int j = 0; j < BINS; j++)
+    for (j = 0; j < BINS; j++)
       {
         #pragma omp atomic
         dist[j] += dist_private[j]; 
