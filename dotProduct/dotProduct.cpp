@@ -59,6 +59,20 @@ int main() {
   //   ii. Using  critical pragma
 
   time_start = wall_time(); 
+  for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
+  {
+    alpha_parallel = 0.0; 
+    #pragma omp parallel for schedule (static) reduction (+: alpha_parallel)
+    for (int i = 0; i < N; i++)
+    {
+      alpha_parallel +=a[i]*b[i]; 
+    }
+    
+  }
+  time_red = wall_time() -time_start; 
+  
+  
+  /*
   #pragma omp parallel for default(shared) private(i) schedule(static) reduction (+:alpha_parallel)
   for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++) {
     alpha_parallel = 0.0;
@@ -66,8 +80,7 @@ int main() {
       alpha_parallel += a[i] * b[i];
     }
   }
-  time_red = wall_time() - time_start; 
-
+  */ 
   //time_red = wall_time() - time_red; 
 
   long double alpha_local;
