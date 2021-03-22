@@ -84,7 +84,7 @@ int main() {
   {
     alpha_parallel = 0.0; 
     alpha_local=0.0; 
-    #pragma omp for schedule (static)
+    #pragma omp parallel for schedule (static)
     for (int i = 0; i < N; i++)
     {
       alpha_local += a[i]*b[i]; 
