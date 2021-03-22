@@ -62,7 +62,7 @@ int main() {
   for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
   {
     alpha_parallel = 0.0; 
-    #pragma omp parallel for schedule (static) reduction (+: alpha_parallel)
+    #pragma omp parallel for schedule (static) shared (a, b) reduction (+: alpha_parallel)
     for (int i = 0; i < N; i++)
     {
       alpha_parallel +=a[i]*b[i]; 
@@ -70,26 +70,13 @@ int main() {
     
   }
   time_red = wall_time() -time_start; 
-  
 
-  /*
-  #pragma omp parallel for default(shared) private(i) schedule(static) reduction (+:alpha_parallel)
-  for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++) {
-    alpha_parallel = 0.0;
-    for (int i = 0; i < N; i++) {
-      alpha_parallel += a[i] * b[i];
-    }
-  }
-  */ 
-  //time_red = wall_time() - time_red; 
-
-  /*
-
+  alpha_parallel = 0.0;
   long double alpha_local;
   time_start = wall_time(); 
   for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
   {
-    alpha_local=0; 
+    alpha_local=0.0; 
     #pragma omp for schedule (static)
     for (int i = 0; i < N; i++)
     {
@@ -101,27 +88,7 @@ int main() {
     }
   }
   time_critical=wall_time() - time_start; 
-  */
-
-
-   
-
-/*
-  #pragma omp parallel for default(shared) private(i) schedule(static) 
-  for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++)
-  {
-    alpha_parallel = 0.0; 
-    for (int i = 0; i < N; i++)
-    {
-      #pragma omp critical; 
-      alpha_parallel += a[i]*b[i]; 
-    }
-    
-  }
-*/
-  //time_critical = wall_time() - time_critical; 
   
-
   if ((fabs(alpha_parallel - alpha) / fabs(alpha_parallel)) > EPSILON) {
     cout << "parallel reduction: " << alpha_parallel << ", serial: " << alpha
          << "\n";
