@@ -83,15 +83,18 @@ int main() {
   for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
   {
     alpha_parallel = 0.0; 
-    alpha_local=0.0; 
-    #pragma omp parallel for schedule (static)
-    for (int i = 0; i < N; i++)
+    #pragma omp parallel shared(alpha_parallel) private(alpha_local)
     {
-      alpha_local += a[i]*b[i]; 
-    }
-    #pragma omp critical 
-    {
-      alpha_parallel +=alpha_local; 
+      alpha_local = 0.0; 
+      #pragma omp paralllel for schedule (static)
+      for (int i = 0; i < N; i++)
+      {
+        alpha_local += a[i]*b[i]; 
+      }
+      #pragma omp critical 
+      {
+        alpha_parallel += alpha_local; 
+      }
     }
   }
   time_critical=wall_time() - time_start; 
