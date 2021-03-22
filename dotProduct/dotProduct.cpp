@@ -16,9 +16,9 @@
 // 1.1s ~80MB
 //#define N 10000000
 // 13s ~800MB
-#define N 100000000
+//#define N 100000000
 // 127s 16GB
-//#define N 1000000000
+#define N 1000000000
 #define EPSILON 0.1
 
 using namespace std;
