@@ -71,11 +71,11 @@ int main() {
   }
   time_red = wall_time() -time_start; 
 
-  alpha_parallel = 0.0;
   long double alpha_local;
   time_start = wall_time(); 
   for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
   {
+    alpha_parallel = 0.0; 
     alpha_local=0.0; 
     #pragma omp for schedule (static)
     for (int i = 0; i < N; i++)
