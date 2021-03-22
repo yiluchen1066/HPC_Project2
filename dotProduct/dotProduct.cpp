@@ -71,6 +71,13 @@ int main() {
   }
   time_red = wall_time() -time_start; 
 
+  if ((fabs(alpha_parallel - alpha) / fabs(alpha_parallel)) > EPSILON) {
+    cout << "parallel reduction: " << alpha_parallel << ", serial: " << alpha
+         << "\n";
+    cerr << "Alpha not yet implemented correctly!\n";
+    exit(1);
+  }
+
   long double alpha_local;
   time_start = wall_time(); 
   for (int iteration = 0; iteration < NUM_ITERATIONS; iteration++)
