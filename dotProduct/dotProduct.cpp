@@ -71,7 +71,7 @@ int main() {
   }
   time_red = wall_time() -time_start; 
   
-  
+
   /*
   #pragma omp parallel for default(shared) private(i) schedule(static) reduction (+:alpha_parallel)
   for (int iterations = 0; iterations < NUM_ITERATIONS; iterations++) {
@@ -82,6 +82,8 @@ int main() {
   }
   */ 
   //time_red = wall_time() - time_red; 
+
+  /*
 
   long double alpha_local;
   time_start = wall_time(); 
@@ -99,6 +101,7 @@ int main() {
     }
   }
   time_critical=wall_time() - time_start; 
+  */
 
 
    
