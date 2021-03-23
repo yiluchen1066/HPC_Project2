@@ -13,6 +13,5 @@ export OMP_NUM_THREADS=8
 export OMP_NUM_THREADS=16
 ./hist_omp
 
-
 export OMP_NUM_THREADS=1
 ./hist_seq
