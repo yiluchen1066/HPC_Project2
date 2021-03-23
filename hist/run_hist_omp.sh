@@ -1,7 +1,4 @@
 export OMP_NUM_THREADS=1
-./hist_seq
-
-export OMP_NUM_THREADS=1
 ./hist_omp
 
 export OMP_NUM_THREADS=2
