@@ -16,5 +16,4 @@ export OMP_NUM_THREADS=16
 export OMP_NUM_THREADS=24
 ./recur_omp
 
-export OMP_NUM_THREADS=1
-./recur_seq
+
