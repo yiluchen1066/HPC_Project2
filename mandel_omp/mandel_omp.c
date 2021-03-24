@@ -9,6 +9,8 @@
 #include "consts.h"
 #include "pngwriter.h"
 
+
+
 unsigned long get_time() {
   struct timeval tp;
   gettimeofday(&tp, NULL);
