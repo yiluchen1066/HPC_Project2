@@ -7,7 +7,7 @@
 #include<omp.h>
 
 #include "consts.h"
-#include "pngwriter_omp.h"
+#include "pngwriter.h"
 
 unsigned long get_time() {
   struct timeval tp;
