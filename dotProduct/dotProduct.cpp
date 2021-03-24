@@ -218,8 +218,9 @@ int main(){
     delete[] a;
     delete[] b;
 
-    return 0;
+    
 
   }
+  return 0; 
   
 }
