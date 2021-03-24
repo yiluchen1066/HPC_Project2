@@ -1,4 +1,7 @@
 export OMP_NUM_THREADS=1
+./mandel_seq
+
+export OMP_NUM_THREADS=1
 ./mandel_omp
 
 export OMP_NUM_THREADS=2
