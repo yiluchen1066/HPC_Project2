@@ -1,4 +1,4 @@
-all: mandel_seq mandel_omp_3072
+all: mandel_seq mandel_omp
 
 mandel_seq: mandel_seq.c pngwriter.c
 	gcc -o $@ -I. -O3 $^ -lpng 
